@@ -24,12 +24,24 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+TODO-APP created using [Nest](https://github.com/nestjs/nest) framework.
+
+This app is using [POSTGRES](https://www.postgresql.org/)
 
 ## Installation
 
 ```bash
 $ npm install
+```
+
+## Environment
+```bash
+create .env file
+PG_DB_HOST=<POSTGRES_HOSTNAME>
+PG_DB_PORT=<POSTGRES_PORT>
+PG_DB_USERNAME=<POSTGRES_USERNAME>
+PG_DB_PASSWORD=<POSTGRES_PASSWORD>
+PG_DB_NAME=<POSTGRES_DATABASE_NAME>
 ```
 
 ## Running the app
@@ -57,17 +69,6 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Author - [Elliot](https://github.com/techyaura)
