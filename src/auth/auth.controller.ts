@@ -52,7 +52,7 @@ export class AuthController {
 
   @Get('/google/redirect')
   @UseGuards(GoogleAuthGuard)
-  async googleAuthRedirect(@Req() req, @Res() res) {
+  async googleAuthRedirect(@Req() req: any, @Res() res: any) {
     const user: AuthGoogleDto = req.user;
     const { accessToken } = await this.authService.googleLogin(user);
     return res.redirect(
