@@ -12,6 +12,7 @@ import {
   UsePipes,
   ValidationPipe,
   Req,
+  Logger,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth-jwt.guard';
 import { JwtAuthUser } from 'src/auth/auth-user.decorator';
@@ -24,6 +25,7 @@ import { TasksService } from './tasks.service';
 @Controller('tasks')
 @UseGuards(JwtAuthGuard)
 export class TasksController {
+  private logger = new Logger('Tasks Controller');
   constructor(private tasksService: TasksService) {}
 
   @Get()
@@ -31,6 +33,11 @@ export class TasksController {
     @Query() filterTaskDto: FilterTaskDto,
     @Req() req,
   ): Promise<Task[]> {
+    this.logger.verbose(
+      `${req.user.email}  is fetching tasks with ${JSON.stringify(
+        filterTaskDto,
+      )}`,
+    );
     return this.tasksService.getAllTasks(filterTaskDto, req.user);
   }
 
