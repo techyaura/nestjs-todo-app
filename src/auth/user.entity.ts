@@ -27,10 +27,10 @@ export class User extends BaseEntity {
   salt: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  createAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  updateAt: Date;
+  updatedAt: Date;
 
   @OneToMany((type) => Task, (task) => task.user, { eager: true })
   tasks: Task[];

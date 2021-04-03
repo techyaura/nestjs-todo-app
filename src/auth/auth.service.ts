@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IAuthSuccess } from './auth.model';
+import { IAuthResponse, IAuthSuccess } from './auth.model';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { AuthGoogleDto } from './dto/auth-google.dto';
 import { User } from './user.entity';
@@ -31,9 +31,15 @@ export class AuthService {
       email,
       id,
     });
+    // remove password
+    delete user.password;
+    // remove salt
+    delete user.salt;
+    // remove task
+    delete user.tasks;
     return {
       accessToken,
-      data: { ...user },
+      data: { ...this.trimUserResponse(user) },
     };
   }
 
@@ -54,9 +60,20 @@ export class AuthService {
       email,
       id,
     });
+
     return {
       accessToken,
-      data: { ...user },
+      data: { ...this.trimUserResponse(user) },
     };
+  }
+
+  trimUserResponse(user: User): IAuthResponse {
+    // remove password
+    delete user.password;
+    // remove salt
+    delete user.salt;
+    // remove task
+    delete user.tasks;
+    return user;
   }
 }
