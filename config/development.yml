@@ -1,0 +1,8 @@
+db:
+  host: 'localhost'
+  username: 'postgres'
+  postgres: 'postgres'
+  synchronize: true
+  
+jwt:
+  secret: 'mytididiapp'

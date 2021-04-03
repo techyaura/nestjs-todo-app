@@ -4,13 +4,12 @@ import {
 } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { IRequestSuccess } from './auth.model';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { User } from './user.entity';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  async signUp(authCredentials: AuthCredentialsDto): Promise<IRequestSuccess> {
+  async signUp(authCredentials: AuthCredentialsDto): Promise<User> {
     try {
       const { email, password } = authCredentials;
       const user = new User();
@@ -18,9 +17,7 @@ export class UserRepository extends Repository<User> {
       user.salt = await bcrypt.genSalt();
       user.password = await this.hashPassword(password, user.salt);
       await user.save();
-      return {
-        message: `User added successfully`,
-      };
+      return user;
     } catch (err) {
       // postgres
       if (err.code === '23505') {
@@ -35,11 +32,17 @@ export class UserRepository extends Repository<User> {
     return bcrypt.hash(password, salt);
   }
 
-  async validateUserPassword(authCredentials: AuthCredentialsDto) {
+  async fetchUser(email: string): Promise<User> {
+    return await this.findOne({ email });
+  }
+
+  async validateUserPassword(
+    authCredentials: AuthCredentialsDto,
+  ): Promise<User> {
     const { password, email } = authCredentials;
-    const user = await this.findOne({ email });
+    const user = await this.fetchUser(email);
     if (user && (await user.validatePassword(password))) {
-      return user.email;
+      return user;
     }
     return null;
   }

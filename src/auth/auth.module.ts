@@ -6,6 +6,9 @@ import { AuthController } from './auth.controller';
 import { UserRepository } from './user.repository';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './auth-jwt-strategy';
+import * as config from 'config';
+import { AuthGoogleStrategy } from './auth-google-strategy';
+const dbconfig = config.get('jwt');
 
 @Module({
   imports: [
@@ -13,15 +16,15 @@ import { JwtStrategy } from './auth-jwt-strategy';
       defaultStrategy: 'jwt',
     }),
     JwtModule.register({
-      secret: 'heelshdjhsfdsrdwfgs',
+      secret: dbconfig.secret,
       signOptions: {
-        expiresIn: 3600,
+        expiresIn: dbconfig.expiresIn,
       },
     }),
     TypeOrmModule.forFeature([UserRepository]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule],
+  providers: [AuthService, JwtStrategy, AuthGoogleStrategy],
+  exports: [JwtStrategy, PassportModule, AuthGoogleStrategy],
 })
 export class AuthModule {}
