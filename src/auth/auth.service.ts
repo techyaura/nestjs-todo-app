@@ -31,12 +31,6 @@ export class AuthService {
       email,
       id,
     });
-    // remove password
-    delete user.password;
-    // remove salt
-    delete user.salt;
-    // remove task
-    delete user.tasks;
     return {
       accessToken,
       data: { ...this.trimUserResponse(user) },
