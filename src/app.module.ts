@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfig } from './config/typeorm.config';
+// POstgres
+import { typeOrmConfig } from './config/typeorm.postgres.config';
+// sqlite
+// import { typeOrmConfig } from './config/typeorm.sqlite.config';
 import { TasksModule } from './tasks/tasks.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -15,8 +18,8 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRootAsync({
       useFactory: typeOrmConfig,
     }),
-    TasksModule,
     AuthModule,
+    TasksModule,
   ],
   controllers: [],
   providers: [],

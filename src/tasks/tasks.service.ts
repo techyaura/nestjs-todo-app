@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/auth/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { FilterTaskDto } from './dto/filter-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -13,33 +14,45 @@ export class TasksService {
     private taskRepository: TaskRepository,
   ) {}
 
-  async getAllTasks(filterTaskDto: FilterTaskDto): Promise<Task[]> {
-    return await this.taskRepository.getTasks(filterTaskDto);
+  async getAllTasks(filterTaskDto: FilterTaskDto, user: User): Promise<Task[]> {
+    return await this.taskRepository.getTasks(filterTaskDto, user);
   }
 
-  createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-    return this.taskRepository.createTask(createTaskDto);
+  createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
+    return this.taskRepository.createTask(createTaskDto, user);
   }
 
-  async getTaskById(id: number): Promise<Task> {
-    const task = await this.taskRepository.findOne(id);
+  async getTaskById(id: number, user: User): Promise<Task> {
+    const task = await this.taskRepository.findOne({
+      where: {
+        id,
+        userId: user.id,
+      },
+    });
     if (!task) {
       throw new NotFoundException(`Task with ID {${id}} not found`);
     }
     return task;
   }
 
-  async deleteTaskById(id: number): Promise<string> {
-    const found = await this.taskRepository.delete(id);
+  async deleteTaskById(id: number, user: User): Promise<string> {
+    const found = await this.taskRepository.delete({
+      id,
+      userId: user.id,
+    });
     if (found.affected === 0) {
       throw new NotFoundException(`Task with ID {${id}} not found`);
     }
     return `Task with ${id} has been deleted`;
   }
 
-  async updateTask(id: number, updateTaskDto: UpdateTaskDto): Promise<Task> {
+  async updateTask(
+    id: number,
+    updateTaskDto: UpdateTaskDto,
+    user: User,
+  ): Promise<Task> {
     const { title, description, status } = updateTaskDto;
-    const task = await this.getTaskById(id);
+    const task = await this.getTaskById(id, user);
     if (title) {
       task.title = title;
     }
