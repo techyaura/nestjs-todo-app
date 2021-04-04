@@ -12,10 +12,11 @@ import { IRequestSuccess, IAuthSuccess } from './auth.model';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { GoogleAuthGuard } from './auth-google.guard';
-import * as config from 'config';
 import { AuthGoogleDto } from './dto/auth-google.dto';
 import { JwtService } from '@nestjs/jwt';
+import * as config from 'config';
 const authConfig = config.get('social');
+const authMessages = config.get('messages.auth');
 
 @Controller('auth')
 export class AuthController {
@@ -30,7 +31,7 @@ export class AuthController {
   ): Promise<IRequestSuccess> {
     await this.authService.signUp(authCredentialsDto);
     return {
-      message: `User have been successfully sign up.`,
+      message: authMessages.SIGNUP_IN_SUCCESS,
     };
   }
 
@@ -39,7 +40,7 @@ export class AuthController {
     @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
   ): Promise<IAuthSuccess> {
     return {
-      message: 'Successfuly signed in',
+      message: authMessages.SIGN_IN_SUCCESS,
       ...(await this.authService.signIn(authCredentialsDto)),
     };
   }

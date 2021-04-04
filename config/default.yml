@@ -13,4 +13,14 @@ social:
   google:
     callback: http://localhost:3000/auth/google/redirect
     redirect: http://localhost:9000/auth/google
-    
+
+messages:
+  auth:
+    SIGN_IN_SUCCESS: 'Successfuly signed in'
+    SIGNUP_IN_SUCCESS: 'User have been successfully sign up.'
+    EMAIL_EXIST: 'Email already exists'
+  task:
+    NOT_FOUND: 'Task with ID {{ID}} not found'
+
+error_codes:
+  DUPLICATE_EXIST: '23505'

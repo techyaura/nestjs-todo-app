@@ -15,7 +15,6 @@ import {
   Logger,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/auth-jwt.guard';
-import { JwtAuthUser } from 'src/auth/auth-user.decorator';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { FilterTaskDto } from './dto/filter-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';

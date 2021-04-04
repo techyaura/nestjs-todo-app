@@ -6,6 +6,9 @@ import { EntityRepository, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { User } from './user.entity';
+import * as config from 'config';
+const authMessages = config.get('messages.auth');
+const errorCodes = config.get('error_codes');
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -20,8 +23,8 @@ export class UserRepository extends Repository<User> {
       return user;
     } catch (err) {
       // postgres
-      if (err.code === '23505') {
-        throw new ConflictException('Email already exists');
+      if (err.code === errorCodes.DUPLICATE_EXIST) {
+        throw new ConflictException(authMessages.EMAIL_EXIST);
       } else {
         throw new InternalServerErrorException();
       }

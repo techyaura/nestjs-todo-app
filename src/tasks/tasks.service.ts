@@ -6,6 +6,8 @@ import { FilterTaskDto } from './dto/filter-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from './task.entity';
 import { TaskRepository } from './task.repository';
+import * as config from 'config';
+const taskMessages = config.get('messages.task');
 
 @Injectable()
 export class TasksService {
@@ -30,7 +32,7 @@ export class TasksService {
       },
     });
     if (!task) {
-      throw new NotFoundException(`Task with ID {${id}} not found`);
+      throw new NotFoundException(taskMessages.NOT_FOUND.replace('{ID}', id));
     }
     return task;
   }
@@ -41,7 +43,7 @@ export class TasksService {
       userId: user.id,
     });
     if (found.affected === 0) {
-      throw new NotFoundException(`Task with ID {${id}} not found`);
+      throw new NotFoundException(taskMessages.NOT_FOUND.replace('{ID}', id));
     }
     return `Task with ${id} has been deleted`;
   }
