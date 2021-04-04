@@ -17,7 +17,7 @@ async function bootstrap() {
     .addTag('todo')
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/', app, document);
   await app.listen(port);
   logger.log(`Application listening on port ${port}`);
 }

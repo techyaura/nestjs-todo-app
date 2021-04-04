@@ -36,7 +36,8 @@ $ npm install
 
 ## Environment
 ```bash
-create .env file
+create [.env.development] at root level for development mode if not using local Postgres connection with configuration as below:
+
 PG_DB_HOST=<POSTGRES_HOSTNAME>
 PG_DB_PORT=<POSTGRES_PORT>
 PG_DB_USERNAME=<POSTGRES_USERNAME>
@@ -69,6 +70,10 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Screenshots
+![image](https://user-images.githubusercontent.com/5227618/113511578-0ce9d100-957e-11eb-9352-5a29be89662b.png)
+
 ## Stay in touch
 
 - Author - [Elliot](https://github.com/techyaura)
