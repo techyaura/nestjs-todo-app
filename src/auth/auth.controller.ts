@@ -57,7 +57,9 @@ export class AuthController {
     const user: AuthGoogleDto = req.user;
     const { accessToken } = await this.authService.googleLogin(user);
     return res.redirect(
-      `${authConfig.google.redirect}?accessToken=${accessToken}`,
+      `${
+        process.env.AUTH_GOOGLE_REDIRECT || authConfig.google.redirect
+      }?accessToken=${accessToken}`,
     );
   }
 }
