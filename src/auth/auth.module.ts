@@ -16,7 +16,7 @@ const dbconfig = config.get('jwt');
       defaultStrategy: 'jwt',
     }),
     JwtModule.register({
-      secret: dbconfig.secret,
+      secret: process.env.JWT_SECRET || dbconfig.secret,
       signOptions: {
         expiresIn: dbconfig.expiresIn,
       },

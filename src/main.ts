@@ -3,10 +3,10 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as config from 'config';
+const serverConfig = config.get('server');
 
 async function bootstrap() {
-  const serverConfig = process.env.PORT || config.get('server');
-  const port = serverConfig.port;
+  const port = process.env.PORT || serverConfig.port;
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootsrapping---Application');
   // configure swagger
